@@ -182,7 +182,7 @@ npm run dev
             │   │   │   ├── Dashboard.jsx
             │   │   │   ├── FileListRtp.jsx
             │   │   │   ├── FileList.jsx
-            │   │   │   ├── ReportListRtp.jsx
+            │   │   │   ├── ReportList.jsx
             │   │   │   ├── Login.jsx
             │   │   │   ├── Register.jsx
             │   │   │   ├── Navbar.jsx
