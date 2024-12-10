@@ -4,15 +4,7 @@
  * @returns {Function}
  */
 module.exports = (permissionName) => {
-   /* return (req, res, next) => {
-      const permissions = req.user.role.permissions.map((perm) => perm.name);
-  
-      if (permissions.includes(permissionName)) {
-        next();
-      } else {
-        res.status(403).json({ message: 'Forbidden' });
-      }
-    };*/
+
     return (req, res, next) => {
       try {
         // Validate user and permissions existence

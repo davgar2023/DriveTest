@@ -19,9 +19,7 @@ module.exports = async (req, res, next) => {
       populate: { path: 'permissions' },
     });
 
-   // console.log('User Permissions:', req.user.role.permissions.map((perm) => perm.name));
-  
-   //console.log('User Data:', JSON.stringify(user, null, 2));
+
 
     if (!user || !user.role) {
       return res.status(403).json({ message: 'User or role not found' });
@@ -36,6 +34,5 @@ module.exports = async (req, res, next) => {
     }
     res.status(400).json({ message: 'Access Denied: Invalid Token' });
 
-    //res.status(400).json({ message: 'Invalid Token' });
   }
 };
