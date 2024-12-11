@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import FileList from './FileList';
 import FileListRtp from './FileListRtp';
 import ReportList from './ReportList';
+import CreateUser from './CreateUser';
 
 /**
  * Dashboard Component
@@ -17,6 +18,7 @@ const Dashboard = () => {
         <Route path="trpfiles" element={<FileListRtp />} />
           <Route path="files" element={<FileList />} />
           <Route path="reports" element={<ReportList />} />
+          <Route path="users" element={<CreateUser />} />
           <Route path="*" element={<Welcome />} />
         </Routes>
       </Container>

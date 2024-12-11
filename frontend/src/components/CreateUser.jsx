@@ -7,9 +7,10 @@ import { getRoles } from '../api/roleApi';
 
 
 /**
- * Register Component
+ * Users Component
  */
-const Register = () => {
+const Users = () => {
+  const { auth } = useContext(AuthContext);
   const [formData, setFormData] = useState({ name: '', email: '', password: '', roleName: '' });
   const { login } = useContext(AuthContext);
   const [error, setError] = useState('');
@@ -21,16 +22,18 @@ const Register = () => {
   useEffect(() => {
     const fetchRoles = async () => {
       try {
-        const data = await getRoles();
+        const data = await getRoles( auth.accessToken );
         setRoles(data || []);
       } catch (err) {
         console.error(err);
-        setError('Error fetching roles');
+        setError(`Error fetching roles: ${err?.response?.data?.message}`);
       }
     };
   
-    fetchRoles();
-  }, []);
+    if (auth.accessToken) { 
+      fetchRoles();
+    }
+  }, [auth.accessToken]);
 
   /**
    * Handle Input Change
@@ -50,7 +53,6 @@ const Register = () => {
       const res = await api.post('/api/auth/register', formData);
       const { accessToken, refreshToken } = res.data;
       login(accessToken, refreshToken);
-      //login(res.data.token);
       navigate('/dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred');
@@ -59,7 +61,7 @@ const Register = () => {
 
   return (
     <Container className="mt-5">
-      <h2>Register</h2>
+      <h2>Users</h2>
       <Form onSubmit={handleSubmit}>
         {error && <Alert variant="danger">{error}</Alert>}
         <Form.Group controlId="name">
@@ -91,11 +93,11 @@ const Register = () => {
                   </Form.Control>
                 </Form.Group>
         <Button type="submit" className="mt-3">
-          Register
+          Create user
         </Button>
       </Form>
     </Container>
   );
 };
 
-export default Register;
+export default Users;

@@ -21,6 +21,8 @@ const roles = [
       'delete_file',
       'manage_roles',
       'manage_users',
+      'create_role',
+      'view_roles'
       // Include all permissions
     ],
   },

@@ -3,7 +3,7 @@ import { useState, useContext } from 'react';
 import { Form, Button, Alert, Container, Row, Col, Card } from 'react-bootstrap';
 import  AuthContext  from '../context/AuthContext';
 import api from '../api/axios'; // Import the Axios instance
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 /**
@@ -73,9 +73,7 @@ const Login = () => {
                 Login
               </Button>
             </Form>
-            <div className="text-center mt-3">
-              <Link to="/register">Dont have an account? Register</Link>
-            </div>
+           
           </Card.Body>
         </Card>
       </Col>

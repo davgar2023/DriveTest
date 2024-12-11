@@ -16,6 +16,8 @@ const permissions = [
   'delete_file',
   'manage_roles',
   'manage_users',
+  'create_role',
+  'view_roles'
   // Add more permissions as needed
 ];
 
