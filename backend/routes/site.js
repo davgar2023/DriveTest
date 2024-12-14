@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const auth = require('../middleware/auth');
-const { createSite, getSites } = require('../controllers/siteContraller');
+const { createSite, getSites } = require('../controllers/siteController');
 const permission = require('../middleware/permission');
 
 /**
