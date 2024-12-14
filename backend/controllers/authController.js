@@ -41,6 +41,18 @@ exports.register = async (req, res) => {
     const role = await Role.findOne({ name: roleName });
     if (!role) return res.status(400).json({ message: 'Role not found' });
 
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation regex
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: 'Invalid email format' });
+    }
+
+    // Check if the email is already in use
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Email is already registered' });
+    }
+
     const user = new User({ name, email, password, role: role._id });
     await user.save();
 
