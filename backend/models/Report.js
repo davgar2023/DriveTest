@@ -14,6 +14,24 @@ const ReportSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
+    
+    ticketedId: {
+      type: String,
+      unique: true,
+      required: true
+    },
+    
+    dateTime: {
+    type: Date,
+    required: true
+  },
+
+  site: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Site',
+    required: true
+  }
+
   },
   { timestamps: true }
 );
