@@ -4,7 +4,7 @@ const { processTRP, downloadReport } = require('../controllers/rtpController');
 const auth = require('../middleware/auth');
 const permission = require('../middleware/permission');
 const { getAllPPTXFiles } = require("../controllers/rtpController");
-
+const upload = require('../utils/uploadTrp');
 
 /**
  * @route   POST /api/rtp/upload
@@ -12,7 +12,8 @@ const { getAllPPTXFiles } = require("../controllers/rtpController");
  */
 router.post('/upload',auth,
     permission('upload_file'),
-     processTRP);
+    upload.single('file'),
+    processTRP);
 /**
  * @route   POST /api/rtp/download
  * @desc   RTP a user

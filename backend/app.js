@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const fileUpload = require("express-fileupload");
+//const fileUpload = require("express-fileupload");
 // Import routes
 const authRoutes = require('./routes/auth');
 const fileRoutes = require('./routes/files');
@@ -22,7 +22,7 @@ const app = express();
 // Middleware
 app.use(cors()); // Enable CORS
 app.use(express.json()); // Parse JSON bodies
-app.use(fileUpload());
+//app.use(fileUpload());
 
 // Routes
 app.use('/api/auth', authRoutes);
