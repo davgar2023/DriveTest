@@ -39,6 +39,9 @@ const Navbar = () => {
             <Nav.Link as={Link} to="/dashboard/users">
               Users
             </Nav.Link>
+            <Nav.Link as={Link} to="/dashboard/sites">
+              Sites
+            </Nav.Link>
             {/* Add more nav links as needed */}
           </Nav>
           <Nav>

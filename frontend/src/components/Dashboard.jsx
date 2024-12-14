@@ -5,6 +5,7 @@ import FileList from './FileList';
 import FileListRtp from './FileListRtp';
 import ReportList from './ReportList';
 import CreateUser from './CreateUser';
+import SitesListAndCreate from '../components/SitesListAndCreate';
 
 /**
  * Dashboard Component
@@ -19,6 +20,7 @@ const Dashboard = () => {
           <Route path="files" element={<FileList />} />
           <Route path="reports" element={<ReportList />} />
           <Route path="users" element={<CreateUser />} />
+          <Route path="sites" element={<SitesListAndCreate />} />
           <Route path="*" element={<Welcome />} />
         </Routes>
       </Container>
