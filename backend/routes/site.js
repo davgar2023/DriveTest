@@ -9,11 +9,11 @@ const permission = require('../middleware/permission');
  * @route   POST /api/sites
  * @desc    Add Site's new 
  */
-router.post('/sites', auth, createSite);
+router.post('/', auth, createSite);
 /**
  * @route   GET /api/sites
  * @desc    All sites 
  */
-router.get('/sites', auth, getSites);
+router.get('/', auth, getSites);
 
 module.exports = router;
