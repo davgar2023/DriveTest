@@ -17,7 +17,11 @@ const permissions = [
   'manage_roles',
   'manage_users',
   'create_role',
-  'view_roles'
+  'view_roles',
+  'view_sites',
+  'create_site',
+  'edit_site',
+  'delete_site'
   // Add more permissions as needed
 ];
 
