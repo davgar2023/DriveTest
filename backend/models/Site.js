@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
-
+/**
+ * Sites Schema
+ */
 const SiteSchema = new mongoose.Schema({
   name: {
     type: String,
