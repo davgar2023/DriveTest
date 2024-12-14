@@ -7,6 +7,7 @@ const fileRoutes = require('./routes/files');
 const reportRoutes = require('./routes/reports');
 const roleRoutes = require('./routes/roles');
 const rtpRoutes = require('./routes/rtp');
+const siteRoutes = require('./routes/site');
 const connectDB = require('./config/db');
 
 connectDB();
@@ -27,6 +28,8 @@ app.use('/api/files', fileRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/roles', roleRoutes);
 app.use('/api/rtp',rtpRoutes);
+app.use('/api/sites',siteRoutes);
+
 // Error Handling Middleware (should be after all routes)
 app.use(errorHandler);
 
