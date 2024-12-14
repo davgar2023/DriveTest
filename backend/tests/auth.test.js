@@ -10,6 +10,6 @@ describe('Authentication Endpoints', () => {
       roleName: 'Viewer',
     });
     expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty('token');
+    expect(res.body).toHaveProperty('accessToken');
   });
 });
