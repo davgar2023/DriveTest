@@ -60,7 +60,7 @@ exports.getFilesByUser = async (req, res) => {
     try {
      // const { id } = req.params; // Get the userId from the route params
 
-       debug('Received request to fetch files for User ID:',  req); // Debug input
+       debug('Received request to fetch files for User ID:',  req.user); // Debug input
 
   
       // Validate the User ID

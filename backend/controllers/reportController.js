@@ -1,6 +1,7 @@
 const Report = require('../models/Report');
 const Site = require('../models/Site');
 const generateTicketedCode = require('../utils/createTicketId');
+const { formatInTimeZone } = require('date-fns-tz');
 const debug = require('debug')('app:ReportTicket'); // Namespace for debugging
 
 
@@ -11,8 +12,6 @@ const debug = require('debug')('app:ReportTicket'); // Namespace for debugging
  */
 exports.createReport = async (req, res) => {
 
-
-  debug('arguments:', req.body);
 
   const { title, description , dateTime, siteId} = req.body;
 
@@ -56,9 +55,24 @@ exports.createReport = async (req, res) => {
  */
 exports.getReports = async (req, res) => {
   try {
+    const userTimeZone = req.headers['time-zone'] || 'UTC'; 
+
     const reports = await Report.find().populate('createdBy', 'name email');
-    res.json(reports);
+     
+        // Format each report's date to the user's time zone
+        const formattedReports = reports.map((report) => {
+          const utcDate = report.dateTime; // Assume this is a Date object
+          const localDate = formatInTimeZone(utcDate, userTimeZone,'yyyy-MM-dd HH:mm:ss xxx'); // Convert to user's time zone
+          
+          return {
+            ...report.toObject(), // Convert Mongoose document to plain JS object
+            date: localDate, // Replace the date with the formatted local date
+          };
+        });
+    
+    res.json(formattedReports);
   } catch (error) {
+    debug('error->:',error);
     res.status(500).json({ message: error.message });
   }
 };

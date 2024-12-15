@@ -17,7 +17,7 @@ const ReportList = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(false);
-
+  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   // Sites
   const [sites, setSites] = useState([]);
@@ -83,7 +83,7 @@ const ReportList = () => {
       if (editing) {
         // Update existing report
         await api.put(`/api/reports/${currentReport._id}`, currentReport, {
-          headers: { Authorization: `Bearer ${auth.accessToken}` },
+          headers: { Authorization: `Bearer ${auth.accessToken}`, 'Time-Zone': userTimeZone,  },
         });
       } else {
         // Create new report
@@ -139,6 +139,7 @@ const ReportList = () => {
           <thead>
             <tr>
               <th>Title</th>
+              <th>Ticket Id</th>
               <th>Created By</th>
               <th>Date</th>
               <th>Actions</th>
@@ -148,6 +149,7 @@ const ReportList = () => {
             {reports.map((report) => (
               <tr key={report._id}>
                 <td>{report.title}</td>
+                <td>{report.ticketedId}</td>
                 <td>{report.createdBy?.name || 'Unknown'}</td>
                 <td>{new Date(report.createdAt).toLocaleDateString()}</td>
                 <td>
@@ -224,8 +226,8 @@ const ReportList = () => {
                 </Form.Group>
 
             {/* Date Picker using react-day-picker */}
-            <Form.Group controlId="date" className="mt-3">
-                  <Form.Label>Select Date</Form.Label>
+            <Form.Group controlId="formdate" className="mt-3">
+                  <Form.Label>Select Date & Time</Form.Label>
                   <div className="bg-light text-dark p-2">
                    <DayPickerWithInput
                     onChange={handleChange}

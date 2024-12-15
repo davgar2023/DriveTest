@@ -1,14 +1,14 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { DayPicker } from "react-day-picker";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import "react-day-picker/dist/style.css";
 
 function DayPickerWithInput({ name, value, onChange }) {
   const [isPickerVisible, setPickerVisible] = useState(false);
 
-  // Extract date and time values
-  const [date, time] = value.split("T");
+  // Extract date and time values, ensuring a fallback for undefined `value`
+  const [date, time] = value?.split("T") || ["", ""];
 
   const handleInputChange = (e) => {
     const newValue = e.target.value;
@@ -23,6 +23,7 @@ function DayPickerWithInput({ name, value, onChange }) {
   };
 
   const handleDayClick = (selectedDate) => {
+    if (!selectedDate) return;
     const formattedDate = format(selectedDate, "yyyy-MM-dd");
     const fullValue = time ? `${formattedDate}T${time}` : formattedDate;
     onChange({ target: { name, value: fullValue } });
@@ -30,11 +31,13 @@ function DayPickerWithInput({ name, value, onChange }) {
   };
 
   return (
-    <div style={{ textAlign: "center", padding: "10px" }}>
+    <div style={{ textAlign: "center", padding: "10px", position: "relative" }}>
       {/* Date Input */}
       <input
-        type="date"
+        id={name}
+        type="text"
         name={name}
+        placeholder="YYYY-MM-DD"
         value={date || ""}
         onChange={handleInputChange}
         onFocus={() => setPickerVisible(true)}
@@ -57,12 +60,14 @@ function DayPickerWithInput({ name, value, onChange }) {
         }}
       />
 
+      {/* DayPicker */}
       {isPickerVisible && (
         <div
           style={{
             display: "inline-block",
             position: "absolute",
-            marginTop: "10px",
+            top: "50px",
+            left: "0",
             zIndex: 10,
             backgroundColor: "#fff",
             border: "1px solid #ccc",
@@ -72,7 +77,7 @@ function DayPickerWithInput({ name, value, onChange }) {
         >
           <DayPicker
             mode="single"
-            selected={date ? new Date(date) : undefined}
+            selected={date ? parseISO(`${date}T00:00:00Z`) : undefined}
             onSelect={handleDayClick}
           />
         </div>
@@ -83,7 +88,7 @@ function DayPickerWithInput({ name, value, onChange }) {
 
 DayPickerWithInput.propTypes = {
   name: PropTypes.string.isRequired, // Field name for dynamic form handling
-  value: PropTypes.string.isRequired, // Current value of the field (date and time in ISO format)
+  value: PropTypes.string, // Current value of the field (date and time in ISO format)
   onChange: PropTypes.func.isRequired, // Function to handle changes in the parent
 };
 
