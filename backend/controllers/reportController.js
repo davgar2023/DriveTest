@@ -37,7 +37,7 @@ exports.createReport = async (req, res) => {
       ticketedId,
       createdBy: req.user._id,
       dateTime: new Date(dateTime),
-      site: site._id
+      siteId: site._id
     });
     await report.save();
     res.status(201).json(report);

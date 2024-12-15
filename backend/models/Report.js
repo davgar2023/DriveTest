@@ -26,7 +26,7 @@ const ReportSchema = new mongoose.Schema(
     required: true
   },
 
-  site: {
+  siteId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Site',
     required: true
