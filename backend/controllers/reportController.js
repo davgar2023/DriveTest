@@ -62,11 +62,11 @@ exports.getReports = async (req, res) => {
         // Format each report's date to the user's time zone
         const formattedReports = reports.map((report) => {
           const utcDate = report.dateTime; // Assume this is a Date object
-          const localDate = formatInTimeZone(utcDate, userTimeZone,'yyyy-MM-dd HH:mm:ss xxx'); // Convert to user's time zone
+          const localDate = formatInTimeZone(utcDate, userTimeZone,"yyyy-MM-dd'T'HH:mm"); // Convert to user's time zone
           
           return {
             ...report.toObject(), // Convert Mongoose document to plain JS object
-            date: localDate, // Replace the date with the formatted local date
+            dateTime: localDate, // Replace the date with the formatted local date
           };
         });
     

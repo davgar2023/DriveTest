@@ -88,7 +88,7 @@ const ReportList = () => {
       } else {
         // Create new report
         await api.post('/api/reports', currentReport, {
-          headers: { Authorization: `Bearer ${auth.accessToken}` },
+          headers: { Authorization: `Bearer ${auth.accessToken}`, 'Time-Zone': userTimeZone, },
         });
       }
       setShowModal(false);
