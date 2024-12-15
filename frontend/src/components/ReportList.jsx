@@ -2,6 +2,8 @@ import { useState, useEffect, useContext, useCallback } from 'react';
 import { Table, Button, Modal, Form, Alert, Spinner } from 'react-bootstrap';
 import api from '../api/axios'; // Import the Axios instance
 import  AuthContext  from '../context/AuthContext';
+import { getSites } from '../api/siteApi'; // Make sure getSites returns an array of sites
+import DayPickerWithInput from './DayPickerWithInput';
 
 /**
  * ReportList Component
@@ -11,10 +13,35 @@ const ReportList = () => {
   const { auth } = useContext(AuthContext);
   const [reports, setReports] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [currentReport, setCurrentReport] = useState({ title: '', description: '' });
+  const [currentReport, setCurrentReport] = useState({ title: '', description: '', siteId:'' , dateTime: ''});
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(false);
+
+
+  // Sites
+  const [sites, setSites] = useState([]);
+ 
+
+  /**
+   * Fetch the list of sites from the server.
+   */
+
+  useEffect(() => {
+    const fetchAllSites = async () => {
+      if (!auth.accessToken) return;
+      try {
+        const siteList = await getSites(auth.accessToken);
+        setSites(siteList);
+      } catch (err) {
+        console.error(err);
+        setError('Error fetching sites');
+      }
+    };
+    fetchAllSites();
+  }, [auth.accessToken]);
+
+
 
   /**
    * Fetch the list of reports from the server.
@@ -66,7 +93,7 @@ const ReportList = () => {
       }
       setShowModal(false);
       fetchReports();
-      setCurrentReport({ title: '', description: '' });
+      setCurrentReport({ title: '', description: '', siteId: '', dateTime: '' });
       setEditing(false);
     } catch (err) {
       setError(err.response?.data?.message || 'Error saving report');
@@ -150,7 +177,7 @@ const ReportList = () => {
       <Modal show={showModal} onHide={() => {
         setShowModal(false);
         setEditing(false);
-        setCurrentReport({ title: '', description: '' });
+        setCurrentReport({ title: '', description: '', siteId: '' , dateTime:''});
       }}>
         <Modal.Header closeButton>
           <Modal.Title>{editing ? 'Edit Report' : 'New Report'}</Modal.Title>
@@ -177,6 +204,37 @@ const ReportList = () => {
                 rows={4}
               />
             </Form.Group>
+
+           {/* Site Selection */}
+               <Form.Group controlId="formsiteId" className="mt-3">
+                  <Form.Label>Site</Form.Label>
+                  <Form.Select 
+                   name="siteId"
+                    value={currentReport.siteId}
+                    onChange={ handleChange}
+                    required
+                  >
+                    <option value="">Select a site</option>
+                    {sites.map(site => (
+                      <option key={site._id} value={site._id}>
+                        {site.name} ({site.codeSite})
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+
+            {/* Date Picker using react-day-picker */}
+            <Form.Group controlId="date" className="mt-3">
+                  <Form.Label>Select Date</Form.Label>
+                  <div className="bg-light text-dark p-2">
+                   <DayPickerWithInput
+                    onChange={handleChange}
+                    value={currentReport.dateTime}
+                    name="dateTime"
+                  />
+                  </div>
+                </Form.Group>
+
             <Button variant="primary" type="submit" className="mt-3">
               {editing ? 'Update' : 'Create'}
             </Button>
